@@ -2,60 +2,63 @@
 <html lang="zh-HK">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="dark light">
-<title>PandaPlan 香港日期與即時時鐘</title>
+<title>PandaPlan 香港日期及時間</title>
 <style>
-:root { color-scheme: dark light; font-family: system-ui,-apple-system,"PingFang HK","Noto Sans TC",sans-serif; }
-* { box-sizing: border-box; }
-html,body { margin:0; padding:0; width:100%; background:transparent; overflow:hidden; }
-body { color:#25232a; }
-@media (prefers-color-scheme:dark) { body { color:#f5f3f6; } }
-#clock { display:flex; align-items:baseline; justify-content:space-between; gap:0.35em; width:100%; padding:2px 5px 4px 0; white-space:nowrap; line-height:1.22; font-size:28px; font-weight:750; letter-spacing:.01em; }
-#date,#timewrap { flex:none; white-space:nowrap; }
-#time { font-variant-numeric:tabular-nums; }
-#zone { font-size:.32em; font-weight:600; opacity:.65; margin-left:.35em; vertical-align:baseline; }
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  html, body { margin:0; padding:0; width:100%; min-height:0; overflow:hidden; background:transparent; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Noto Sans TC", "PingFang HK", "Microsoft JhengHei", sans-serif; color:#f7f7f7; }
+  #clock { display:flex; align-items:baseline; justify-content:flex-start; gap:.65em; white-space:nowrap; width:max-content; max-width:none; font-weight:750; line-height:1.25; font-variant-numeric:tabular-nums; letter-spacing:.005em; }
+  #date, #time { white-space:nowrap; }
+  #tz { font-size:.31em; font-weight:550; opacity:.65; margin-left:.25em; vertical-align:baseline; }
+  @media (prefers-color-scheme:light) { body { color:#171717; } }
 </style>
 </head>
 <body>
-<div id="clock" role="timer" aria-label="香港日期及即時時間">
-  <span id="date">載入日期中…</span>
-  <span id="timewrap"><span id="time">00:00:00</span><span id="zone">HKT</span></span>
-</div>
+<div id="clock" aria-label="香港即時日期及時間"><span id="date"></span><span id="time"></span></div>
 <script>
 (() => {
   'use strict';
-  const clock=document.getElementById('clock');
-  const dateEl=document.getElementById('date');
-  const timeEl=document.getElementById('time');
-  const days=['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
-  const fmt=new Intl.DateTimeFormat('en-GB',{
-    timeZone:'Asia/Hong_Kong',year:'numeric',month:'numeric',day:'numeric',
-    hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'
-  });
-  function fit(){
-    // Actual text measurement: expand until date + time occupy almost all available width.
-    const available=Math.max(0,document.documentElement.clientWidth-8);
-    let lo=12,hi=180;
-    for(let i=0;i<12;i++){
-      const mid=(lo+hi)/2;
-      clock.style.fontSize=mid+'px';
-      if(clock.scrollWidth<=available) lo=mid; else hi=mid;
-    }
-    clock.style.fontSize=Math.max(12,lo-1)+'px';
+  const root = document.getElementById('clock');
+  const dateEl = document.getElementById('date');
+  const timeEl = document.getElementById('time');
+  const weekdays = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
+  const dateFormatter = new Intl.DateTimeFormat('en-GB', { timeZone:'Asia/Hong_Kong', year:'numeric', month:'numeric', day:'numeric', weekday:'short' });
+  const timeFormatter = new Intl.DateTimeFormat('en-GB', { timeZone:'Asia/Hong_Kong', hour:'2-digit', minute:'2-digit', second:'2-digit', hourCycle:'h23' });
+  let lastDate = '', lastTime = '';
+  let resizing = false;
+  function fit() {
+    if (resizing) return;
+    resizing = true;
+    // Measure the real rendered text at a known font size; no fixed max-font limit.
+    root.style.fontSize = '32px';
+    const naturalWidth = root.getBoundingClientRect().width;
+    const availableWidth = Math.max(100, document.documentElement.clientWidth - 8);
+    const fontSize = naturalWidth > 0 ? 32 * availableWidth / naturalWidth : 32;
+    root.style.fontSize = Math.max(12, Math.min(fontSize, 240)).toFixed(2) + 'px';
+    resizing = false;
   }
-  function update(){
-    const p=Object.fromEntries(fmt.formatToParts(new Date())
-      .filter(x=>x.type!=='literal').map(x=>[x.type,x.value]));
-    const weekday=new Date(Date.UTC(+p.year,+p.month-1,+p.day)).getUTCDay();
-    dateEl.textContent=`${+p.month} 月 ${+p.day} 日（${days[weekday]}）`;
-    timeEl.textContent=`${p.hour}:${p.minute}:${p.second}`;
-    fit();
+  function update() {
+    const now = new Date();
+    const parts = Object.fromEntries(dateFormatter.formatToParts(now).filter(p => p.type !== 'literal').map(p => [p.type, p.value]));
+    const weekdayIndex = new Date(Date.UTC(Number(parts.year), Number(parts.month)-1, Number(parts.day))).getUTCDay();
+    const dateText = `${Number(parts.month)} 月 ${Number(parts.day)} 日（${weekdays[weekdayIndex]}）`;
+    const timeText = timeFormatter.format(now);
+    if (dateText !== lastDate || timeText !== lastTime) {
+      dateEl.textContent = dateText;
+      timeEl.textContent = timeText;
+      if (dateText !== lastDate) fit();
+      lastDate = dateText;
+      lastTime = timeText;
+    }
   }
   update();
-  window.addEventListener('resize',fit,{passive:true});
-  if('ResizeObserver' in window) new ResizeObserver(fit).observe(document.documentElement);
-  setInterval(update,1000);
+  window.addEventListener('resize', fit, {passive:true});
+  if ('ResizeObserver' in window) new ResizeObserver(fit).observe(document.documentElement);
+  setInterval(update, 250);
+  document.fonts?.ready.then(fit);
 })();
 </script>
 </body>

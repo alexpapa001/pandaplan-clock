@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
 <title>PandaPlan 香港日期及即時時間</title>
 <style>
   * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; width: 100%; background: transparent; overflow: hidden; }
+  html, body { margin: 0; padding: 0; width: 100%; background: #191919; overflow: hidden; }
   body { color: #f5f5f5; font-family: -apple-system, BlinkMacSystemFont, "PingFang HK", "Noto Sans TC", "Microsoft JhengHei", sans-serif; }
   #clock { display: block; width: 100%; margin: 0; padding: 0; white-space: nowrap; font-weight: 750; line-height: 1.2; letter-spacing: 0; font-variant-numeric: tabular-nums; }
   #clock-text { display: inline; }
   #zone { display: inline; font-size: .28em; font-weight: 500; opacity: .65; margin-left: .45em; }
-  @media (prefers-color-scheme: light) { body { color: #171717; } }
 </style>
 </head>
 <body>
@@ -33,7 +33,6 @@
     const style = getComputedStyle(clock);
     const family = style.fontFamily;
     const weight = style.fontWeight;
-    // Measure a single uninterrupted line. Avoid flex/max-content/ResizeObserver feedback loops.
     ctx.font = `${weight} 100px ${family}`;
     const mainWidth = ctx.measureText(label.textContent).width;
     ctx.font = `500 28px ${family}`;
@@ -47,8 +46,8 @@
     const now = new Date();
     const parts = Object.fromEntries(dateFmt.formatToParts(now).filter(p => p.type !== 'literal').map(p => [p.type, p.value]));
     const weekday = weekdays[new Date(Date.UTC(+parts.year, +parts.month - 1, +parts.day)).getUTCDay()];
-    const date = `${+parts.month} 月 ${+parts.day} 日（${weekday}）`;
-    const text = `${date}　${timeFmt.format(now)}`;
+    const date = `${parts.month} 月 ${parts.day} 日（${weekday}）`;
+    const text = `${date} ${timeFmt.format(now)}`;
     if (label.textContent !== text) {
       label.textContent = text;
       if (date !== lastDate) { fit(); lastDate = date; }

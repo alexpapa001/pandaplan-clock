@@ -7,47 +7,32 @@
 <style>
 :root{color-scheme:light dark;font-family:system-ui,-apple-system,"PingFang HK","Noto Sans TC",sans-serif}
 *{box-sizing:border-box}html,body{margin:0;background:transparent;overflow:hidden}
-.clock{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:nowrap;gap:12px;width:100%;padding:8px 4px;color:var(--text,#27232a)}
-.date{font-size:30px;font-weight:700;letter-spacing:.035em;white-space:nowrap}
-.time{font-size:30px;font-weight:650;font-variant-numeric:tabular-nums;letter-spacing:.035em;white-space:nowrap}
+.clock{display:flex;align-items:baseline;flex-wrap:nowrap;gap:22px;padding:2px 0;min-height:42px;color:var(--text,#27232a)}
+.date{font-size:clamp(22px,3.2vw,36px);font-weight:700;letter-spacing:.035em;white-space:nowrap}
+.time{font-size:clamp(22px,3.2vw,36px);font-weight:650;font-variant-numeric:tabular-nums;letter-spacing:.035em;white-space:nowrap}
 .zone{font-size:12px;opacity:.58;font-weight:500;margin-left:4px}
 @media(prefers-color-scheme:dark){.clock{--text:#f2eef4}}
-@media(max-width:380px){.clock{gap:6px}.zone{display:none}}
+@media(max-width:650px){.clock{gap:10px}.date,.time{font-size:clamp(17px,3.8vw,30px)}.zone{display:none}}
 </style>
 </head>
 <body>
 <div class="clock" role="timer" aria-label="香港日期及即時時間">
  <span id="date" class="date">載入日期中…</span>
- <span id="timeGroup" style="white-space:nowrap;flex-shrink:0"><span id="time" class="time">--:--:--</span><span class="zone">HKT</span></span>
+ <span><span id="time" class="time">--:--:--</span><span class="zone">HKT</span></span>
 </div>
 <script>
 (()=>{
  const dateEl=document.getElementById('date');
  const timeEl=document.getElementById('time');
- const clock=document.querySelector('.clock');
- const timeGroup=document.getElementById('timeGroup');
  const weekdays=['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
  const parts=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Hong_Kong',year:'numeric',month:'numeric',day:'numeric',weekday:'short',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'});
- function fit(){
-  const available=clock.clientWidth-8;
-  let low=16, high=64;
-  for(let i=0;i<12;i++){
-   const mid=(low+high)/2;
-   dateEl.style.fontSize=mid+'px';
-   timeEl.style.fontSize=mid+'px';
-   if(dateEl.getBoundingClientRect().width+timeGroup.getBoundingClientRect().width+12<=available) low=mid;
-   else high=mid;
-  }
-  dateEl.style.fontSize=low+'px';timeEl.style.fontSize=low+'px';
- }
  function update(){
   const p=Object.fromEntries(parts.formatToParts(new Date()).filter(x=>x.type!=='literal').map(x=>[x.type,x.value]));
   const weekday=new Date(Date.UTC(+p.year,+p.month-1,+p.day)).getUTCDay();
   dateEl.textContent=`${+p.month} 月 ${+p.day} 日（${weekdays[weekday]}）`;
   timeEl.textContent=`${p.hour}:${p.minute}:${p.second}`;
-  fit();
  }
- update();setInterval(update,1000);new ResizeObserver(fit).observe(clock);
+ update();setInterval(update,1000);
 })();
 </script>
 </body>

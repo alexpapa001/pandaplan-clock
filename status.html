@@ -1,3 +1,71 @@
-<!doctype html><html lang="zh-HK"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>PandaPlan 更新狀態</title>
-<style>:root{color-scheme:dark;font-family:-apple-system,BlinkMacSystemFont,'PingFang HK',sans-serif}body{margin:0;background:transparent;color:#f2f2f2}.panel{background:#191919;border:1px solid #383838;border-radius:12px;padding:18px}.muted{color:#aaa;font-size:13px}.status{font-size:22px;font-weight:700;margin:10px 0}.note{line-height:1.6}small{display:block;margin-top:12px;color:#aaa}@media(prefers-color-scheme:light){body{color:#222}.panel{background:white;border-color:#ddd}.muted,small{color:#666}}</style></head><body><main class="panel"><div class="muted">🐼 PandaPlan 更新狀態</div><div class="status" id="state">正在讀取…</div><div class="note" id="note">請稍候。</div><small id="meta"></small></main>
-<script>(()=>{'use strict';const states={running:'⏳ 正在更新',preview:'ℹ️ 測試完成・預覽模式',success:'✅ 更新完成',warning:'⚠️ 更新完成・有提示',blocked:'⚠️ 排程未套用',failed:'❌ 更新失敗'};async function refresh(){try{const r=await fetch('./pandaplan-status.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)throw Error();const d=await r.json();if(d.schema_version!==1||!states[d.state])throw Error();document.getElementById('state').textContent=states[d.state];document.getElementById('note').textContent=d.message||'沒有詳細說明';document.getElementById('meta').textContent='最後狀態：'+(d.updated_at||'未知')+' · 警告數：'+(d.warning_count||0);}catch(e){document.getElementById('state').textContent='尚未取得更新狀態';document.getElementById('note').textContent='首次執行後才會產生狀態；如持續出現，請檢查設定。'}}refresh();setInterval(refresh,20000)})();</script></body></html>
+<!doctype html>
+<html lang="zh-HK">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PandaPlan 更新狀態</title>
+<style>
+:root{color-scheme:dark;font-family:-apple-system,BlinkMacSystemFont,'PingFang HK',sans-serif}
+body{margin:0;background:transparent;color:#f2f2f2}
+.panel{background:#191919;border:1px solid #383838;border-radius:12px;padding:18px}
+.header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.muted{color:#aaa;font-size:13px}
+.refresh{appearance:none;background:#292929;border:1px solid #4b4b4b;border-radius:7px;color:inherit;padding:7px 10px;font:inherit;font-size:12px;cursor:pointer;white-space:nowrap}
+.refresh:hover{background:#383838}
+.refresh:focus-visible{outline:2px solid #87b7ff;outline-offset:2px}
+.refresh:disabled{opacity:.6;cursor:wait}
+.status{font-size:22px;font-weight:700;margin:10px 0}
+.note{line-height:1.6}
+small{display:block;margin-top:12px;color:#aaa;line-height:1.5;overflow-wrap:anywhere}
+@media(prefers-color-scheme:light){body{color:#222}.panel{background:white;border-color:#ddd}.muted,small{color:#666}.refresh{background:#f7f7f7;border-color:#ccc}.refresh:hover{background:#eee}}
+</style>
+</head>
+<body>
+<main class="panel">
+  <div class="header">
+    <div class="muted">🐼 PandaPlan 更新狀態</div>
+    <button class="refresh" type="button" id="refresh" aria-label="重新整理 PandaPlan 狀態">↻ 重新整理</button>
+  </div>
+  <div class="status" id="state" role="status" aria-live="polite">正在讀取…</div>
+  <div class="note" id="note">請稍候。</div>
+  <small id="meta"></small>
+</main>
+<script>
+(()=>{
+  'use strict';
+  const states={running:'⏳ 正在更新',preview:'ℹ️ 測試完成・預覽模式',success:'✅ 更新完成',warning:'⚠️ 更新完成・有提示',blocked:'⚠️ 排程未套用',failed:'❌ 更新失敗'};
+  const state=document.getElementById('state');
+  const note=document.getElementById('note');
+  const meta=document.getElementById('meta');
+  const button=document.getElementById('refresh');
+  let busy=false;
+  async function refresh(){
+    if(busy)return;
+    busy=true;
+    button.disabled=true;
+    button.textContent='↻ 讀取中…';
+    try{
+      const r=await fetch('./pandaplan-status.json?t='+Date.now(),{cache:'no-store'});
+      if(!r.ok)throw new Error('HTTP '+r.status);
+      const d=await r.json();
+      if(d.schema_version!==1||!Object.prototype.hasOwnProperty.call(states,d.state))throw new Error('Invalid status');
+      state.textContent=states[d.state];
+      note.textContent=d.message||'沒有詳細說明';
+      meta.textContent='最後狀態：'+(d.updated_at||'未知')+' · 警告數：'+(d.warning_count??0);
+    }catch(e){
+      state.textContent='尚未取得更新狀態';
+      note.textContent='無法讀取最新狀態，請稍後再試。';
+      meta.textContent='';
+    }finally{
+      busy=false;
+      button.disabled=false;
+      button.textContent='↻ 重新整理';
+    }
+  }
+  button.addEventListener('click',refresh);
+  refresh();
+  setInterval(refresh,15000);
+})();
+</script>
+</body>
+</html>

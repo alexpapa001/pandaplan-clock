@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "state": "preview",
-  "updated_at": "2026-11-03T13:44:12+08:00",
-  "warning_count": 3,
-  "message": "測試完成（預覽模式），未寫入 Notion。另有排程警告，詳情請查看私人紀錄。",
-  "run_id": "41585616031"
+  "state": "running",
+  "updated_at": "2026-11-03T13:55:32+08:00",
+  "warning_count": 0,
+  "message": "GitHub Actions 已開始執行，請稍候。",
+  "run_id": "41586712820"
 }

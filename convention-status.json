@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "state": "blocked",
-  "updated_at": "2026-11-04T18:05:55+08:00",
-  "warning_count": 1,
-  "message": "展會操作未全部完成，請查看私人紀錄及核對庫存。",
-  "run_id": "41811867861"
+  "state": "running",
+  "updated_at": "2026-11-04T18:16:43+08:00",
+  "warning_count": 0,
+  "message": "展會操作進行中。",
+  "run_id": "41813088703"
 }

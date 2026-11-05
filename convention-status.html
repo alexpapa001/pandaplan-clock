@@ -16,8 +16,14 @@ body{margin:0;background:transparent;color:#f2f2f2}
 .refresh:disabled{opacity:.6;cursor:wait}
 .status{font-size:22px;font-weight:700;margin:10px 0}
 .note{line-height:1.6}
+.details{margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+.details[hidden],.advice[hidden]{display:none}
+.metric{padding:10px 12px;background:#252525;border-radius:8px}
+.metric .key{font-size:12px;color:#aaa}
+.metric .val{font-size:17px;font-weight:650;margin-top:3px}
+.advice{margin-top:12px;border-left:3px solid #d9aa55;padding:10px 12px;background:#2c271d;line-height:1.6;white-space:pre-line}
 small{display:block;margin-top:12px;color:#aaa;line-height:1.5;overflow-wrap:anywhere}
-@media(prefers-color-scheme:light){body{color:#222}.panel{background:white;border-color:#ddd}.muted,small{color:#666}.refresh{background:#f7f7f7;border-color:#ccc}.refresh:hover{background:#eee}}
+@media(prefers-color-scheme:light){body{color:#222}.panel{background:white;border-color:#ddd}.muted,small{color:#666}.refresh{background:#f7f7f7;border-color:#ccc}.refresh:hover{background:#eee}.metric{background:#f4f4f4}.metric .key{color:#666}.advice{background:#fff8e9}}
 </style>
 </head>
 <body>
@@ -28,6 +34,8 @@ small{display:block;margin-top:12px;color:#aaa;line-height:1.5;overflow-wrap:any
   </div>
   <div class="status" id="state" role="status" aria-live="polite">正在讀取…</div>
   <div class="note" id="note">請稍候。</div>
+  <div class="details" id="details" hidden></div>
+  <div class="advice" id="advice" hidden></div>
   <small id="meta"></small>
 </main>
 <script>
@@ -37,29 +45,76 @@ small{display:block;margin-top:12px;color:#aaa;line-height:1.5;overflow-wrap:any
   const state=document.getElementById('state');
   const note=document.getElementById('note');
   const meta=document.getElementById('meta');
+  const details=document.getElementById('details');
+  const advice=document.getElementById('advice');
   const button=document.getElementById('refresh');
   let busy=false;
+  function metric(label,value){
+    const card=document.createElement('div');
+    card.className='metric';
+    const key=document.createElement('div');key.className='key';key.textContent=label;
+    const val=document.createElement('div');val.className='val';val.textContent=String(value);
+    card.append(key,val);details.append(card);
+  }
+  function localTime(value){
+    if(!value)return '未知';
+    const d=new Date(value);
+    if(Number.isNaN(d.getTime()))return String(value);
+    return new Intl.DateTimeFormat('zh-HK',{timeZone:'Asia/Hong_Kong',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'}).format(d)+' HKT';
+  }
+  function guidance(d){
+    const msg=String(d.message||'');
+    const raw=String(d.action||'');
+    if(raw)return raw;
+    if(/missing|schema mismatch|找不到欄位|欄位名稱|property|select|status option/i.test(msg))
+      return '請檢查 Notion 欄位名稱前後是否多了空格、Tab 或其他隱藏字元，並確認欄位類型及選項。';
+    if(/partial|部分寫入|HTTP 400|重複/i.test(msg))
+      return '可能已有部分資料寫入。請先核對庫存異動紀錄，不要直接重試正式寫入。';
+    if(/待收檔|銷售紀錄已核對|closing requires/i.test(msg))
+      return '請確認展會庫存狀態為「待收檔」，並核對銷售紀錄後才勾選「銷售紀錄已核對」。';
+    if(d.state==='blocked'||d.state==='failed')
+      return '請先核對 Notion 展會設定與異動紀錄，排除問題後再執行 Preview；不要直接正式寫入。';
+    return '';
+  }
+  function render(d){
+    if(!d||typeof d!=='object'||!Object.prototype.hasOwnProperty.call(states,d.state))throw new Error('Invalid status');
+    // Support the existing schema_version=1 payload; do not require new backend fields.
+    state.textContent=states[d.state];
+    note.textContent=d.message||'沒有詳細說明';
+    details.replaceChildren();
+    const msg=String(d.message||'');
+    const writes=d.writes??d.notion_writes??(msg.match(/Notion 寫入\\s*(\\d+)\\s*次/)||[])[1];
+    const isPreview=d.state==='preview';
+    if(writes!==undefined&&writes!==null)metric('Notion 寫入',writes+' 次');
+    else if(isPreview)metric('Notion 寫入','0 次（預覽）');
+    const items=Array.isArray(d.operations)?d.operations:[];
+    for(const item of items.slice(0,8)){
+      if(item&&typeof item==='object')metric(String(item.label||item.name||'操作'),String(item.value??item.count??'—'));
+    }
+    // Older publisher embeds counts in message; preserve the full message above.
+    details.hidden=details.children.length===0;
+    const tip=guidance(d);
+    advice.textContent=tip?'修正建議：'+tip:'';
+    advice.hidden=!tip;
+    const warn=Number(d.warning_count??0);
+    meta.textContent='最後更新：'+localTime(d.updated_at)+' · 警告：'+(Number.isFinite(warn)?warn:0)+(d.run_id?' · Run #'+String(d.run_id):'');
+  }
   async function refresh(){
     if(busy)return;
-    busy=true;
-    button.disabled=true;
-    button.textContent='↻ 讀取中…';
+    busy=true;button.disabled=true;button.textContent='↻ 讀取中…';
     try{
       const r=await fetch('./convention-status.json?t='+Date.now(),{cache:'no-store'});
       if(!r.ok)throw new Error('HTTP '+r.status);
-      const d=await r.json();
-      if(d.schema_version!==1||!Object.prototype.hasOwnProperty.call(states,d.state))throw new Error('Invalid status');
-      state.textContent=states[d.state];
-      note.textContent=d.message||'沒有詳細說明';
-      meta.textContent='最後狀態：'+(d.updated_at||'未知')+' · 警告數：'+(d.warning_count??0);
+      render(await r.json());
     }catch(e){
       state.textContent='尚未取得更新狀態';
       note.textContent='無法讀取最新狀態，請稍後再試。';
+      details.hidden=true;details.replaceChildren();
+      advice.textContent='請確認 GitHub Pages 已發佈 convention-status.json，並檢查檔案格式。';
+      advice.hidden=false;
       meta.textContent='';
     }finally{
-      busy=false;
-      button.disabled=false;
-      button.textContent='↻ 重新整理';
+      busy=false;button.disabled=false;button.textContent='↻ 重新整理';
     }
   }
   button.addEventListener('click',refresh);

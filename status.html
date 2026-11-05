@@ -37,6 +37,13 @@ small{display:block;margin-top:12px;color:#aaa;line-height:1.5;overflow-wrap:any
   const state=document.getElementById('state');
   const note=document.getElementById('note');
   const meta=document.getElementById('meta');
+  function localTime(value){
+    if(!value)return '未知';
+    const d=new Date(value);
+    if(Number.isNaN(d.getTime()))return String(value);
+    return new Intl.DateTimeFormat('zh-HK',{timeZone:'Asia/Hong_Kong',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).format(d).replace(/\//g,'/')+' HKT';
+  }
+
   const button=document.getElementById('refresh');
   let busy=false;
   async function refresh(){
@@ -51,7 +58,7 @@ small{display:block;margin-top:12px;color:#aaa;line-height:1.5;overflow-wrap:any
       if(d.schema_version!==1||!Object.prototype.hasOwnProperty.call(states,d.state))throw new Error('Invalid status');
       state.textContent=states[d.state];
       note.textContent=d.message||'沒有詳細說明';
-      meta.textContent='最後狀態：'+(d.updated_at||'未知')+' · 警告數：'+(d.warning_count??0);
+      meta.textContent='最後狀態：'+localTime(d.updated_at)+' · 警告數：'+(d.warning_count??0);
     }catch(e){
       state.textContent='尚未取得更新狀態';
       note.textContent='無法讀取最新狀態，請稍後再試。';

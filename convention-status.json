@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "state": "running",
-  "updated_at": "2026-11-05T12:56:44+08:00",
+  "state": "preview",
+  "updated_at": "2026-11-05T12:56:46+08:00",
   "warning_count": 0,
-  "message": "展會操作進行中。",
+  "message": "展會 Preview 通過；未寫入 Notion。",
   "run_id": "41970880714"
 }

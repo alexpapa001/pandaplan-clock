@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "state": "warning",
-  "updated_at": "2026-11-05T11:42:56+08:00",
-  "warning_count": 1,
-  "message": "展會庫存狀態缺少目標選項：請檢查 Notion Select 選項與程式預期是否一致。",
-  "run_id": "41963290351"
+  "state": "running",
+  "updated_at": "2026-11-05T11:47:12+08:00",
+  "warning_count": 0,
+  "message": "展會操作進行中。",
+  "run_id": "41963734982"
 }

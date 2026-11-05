@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "state": "warning",
-  "updated_at": "2026-11-05T12:32:31+08:00",
-  "warning_count": 1,
-  "message": "Notion 欄位或關聯不匹配：請檢查現有資料庫欄位名稱及類型，不要新增重複 Relation；修正程式對應後再更新。",
-  "run_id": "41968423005"
+  "state": "running",
+  "updated_at": "2026-11-05T12:40:22+08:00",
+  "warning_count": 0,
+  "message": "展會操作進行中。",
+  "run_id": "41969233432"
 }

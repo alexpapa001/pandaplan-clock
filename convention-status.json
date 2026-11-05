@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "state": "running",
-  "updated_at": "2026-11-05T12:44:07+08:00",
-  "warning_count": 0,
-  "message": "展會操作進行中。",
+  "state": "warning",
+  "updated_at": "2026-11-05T12:44:10+08:00",
+  "warning_count": 1,
+  "message": "一鍵收檔被阻擋：請將展會庫存狀態設為「待收檔」，並勾選「銷售紀錄已核對」；確認後重新更新。",
   "run_id": "41969611314"
 }

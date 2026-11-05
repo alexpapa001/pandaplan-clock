@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "state": "running",
-  "updated_at": "2026-11-05T14:00:20+08:00",
-  "warning_count": 0,
-  "message": "展會操作進行中。",
+  "state": "blocked",
+  "updated_at": "2026-11-05T14:00:22+08:00",
+  "warning_count": 1,
+  "message": "展會操作未完成：請核對展會操作請求及庫存狀態；如設定正確仍失敗，需檢查程式。",
   "run_id": "41977517584"
 }

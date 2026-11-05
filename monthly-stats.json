@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-06T00:44:36+08:00",
+  "updated_at": "2026-11-06T00:50:28+08:00",
   "timezone": "Asia/Hong_Kong",
   "months": {
     "2026-11": {
       "available": 98.5,
       "scheduled": 18.0,
-      "actual": 0.0,
+      "actual": 2.0,
       "overtimeDays": 0,
       "inProgress": 4,
       "completed": 0,
@@ -22,7 +22,7 @@
           "total": 2,
           "active": 2,
           "done": 0,
-          "hours": 0.0
+          "hours": 2.0
         },
         "商品企劃": {
           "total": 0,
@@ -59,7 +59,7 @@
   },
   "notes": {
     "task_count": "按該月有工作分配或工作紀錄的唯一任務計算；Done 以目前狀態判定",
-    "actual": "工作紀錄實際工時，避免與工作分配重複計算",
+    "actual": "優先採用工作分配實際完成工時；同任務同日期沒有分配實際工時時才補計工作紀錄，避免重複",
     "overtime": "當日工作紀錄工時超過當日實際可用工時",
     "categories": "支援多選；同一任務可計入多個分類，但全局任務數只計一次；未知或空白分類歸入其他"
   }

@@ -1,7 +1,66 @@
 {
   "schema_version": 1,
-  "updated_at": "尚未同步",
+  "updated_at": "2026-11-06T00:38:58+08:00",
   "timezone": "Asia/Hong_Kong",
-  "months": {},
-  "notes": {}
+  "months": {
+    "2026-11": {
+      "available": 98.5,
+      "scheduled": 18.0,
+      "actual": 0.0,
+      "overtimeDays": 0,
+      "inProgress": 4,
+      "completed": 0,
+      "overBudgetUnfinished": 0,
+      "categories": {
+        "插畫／設計": {
+          "total": 1,
+          "active": 1,
+          "done": 0,
+          "hours": 0.0
+        },
+        "委託創作": {
+          "total": 2,
+          "active": 2,
+          "done": 0,
+          "hours": 0.0
+        },
+        "商品企劃": {
+          "total": 0,
+          "active": 0,
+          "done": 0,
+          "hours": 0.0
+        },
+        "生產／製作": {
+          "total": 0,
+          "active": 0,
+          "done": 0,
+          "hours": 0.0
+        },
+        "展會／活動": {
+          "total": 1,
+          "active": 1,
+          "done": 0,
+          "hours": 0.0
+        },
+        "店舖／營運": {
+          "total": 0,
+          "active": 0,
+          "done": 0,
+          "hours": 0.0
+        },
+        "其他": {
+          "total": 0,
+          "active": 0,
+          "done": 0,
+          "hours": 0.0
+        }
+      }
+    }
+  },
+  "notes": {
+    "task_count": "按該月有工作分配或工作紀錄的唯一任務計算；Done 以目前狀態判定",
+    "actual": "工作紀錄實際工時，避免與工作分配重複計算",
+    "overtime": "當日工作紀錄工時超過當日實際可用工時",
+    "categories": "支援多選；同一任務可計入多個分類，但全局任務數只計一次；未知或空白分類歸入其他"
+  }
 }

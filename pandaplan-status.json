@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "state": "running",
-  "updated_at": "2026-11-05T17:03:13+08:00",
-  "warning_count": 0,
-  "message": "GitHub Actions 已開始執行，請稍候。",
+  "state": "blocked",
+  "updated_at": "2026-11-05T17:03:17+08:00",
+  "warning_count": 1,
+  "message": "安全限制阻止排程寫入；請查看私人執行紀錄。",
   "run_id": "41999200617"
 }

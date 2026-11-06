@@ -103,15 +103,22 @@ small{display:block;margin-top:12px;color:#aaa;line-height:1.5;overflow-wrap:any
     note.replaceChildren();
     let inLate=false;
     let lateCount=0;
+    let quipShown=false;
+    const sleepMatch=lines.join('\n').match(/🐼\s*睡眠換算[：:]\s*(\d+(?:\.\d+)?)\s*天/);
+    const sleepDays=sleepMatch?sleepMatch[1]:null;
+    const safeQuotes=sleepDays?pandaQuotes:pandaQuotes.filter(q=>!q.includes('X'));
+    const pickedQuote=safeQuotes[pandaChoice%safeQuotes.length];
     function add(cls,value){const el=document.createElement('div');el.className=cls;el.textContent=value;note.appendChild(el);return el;}
     for(const line of lines){
       if(/^⚠️\s*預計逾期[：:]\s*\d+\s*項/.test(line)){
         add('note-section',line);inLate=true;
-        lateCount=Number((line.match(/(\d+)\s*項/)||[])[1]||0);continue;
+        lateCount=Number((line.match(/(\d+)\s*項/)||[])[1]||0);
+        add('note-quip',pickedQuote.replaceAll('X',sleepDays||'？').replaceAll('N',String(lateCount)));
+        quipShown=true;
+        continue;
       }
       if(inLate && line.startsWith('🐼 ')){
-        const days=(line.match(/(\d+(?:\.\d+)?)\s*天/)||[])[1]||'？';
-        add('note-quip',pandaQuotes[pandaChoice].replaceAll('X',days).replaceAll('N',String(lateCount)));
+        // Metadata only; the quote has already been inserted below the heading.
         continue;
       }
       const late=inLate && line.match(/^(.*?)\s+(\d+)\s*天$/);

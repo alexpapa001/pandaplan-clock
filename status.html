@@ -18,7 +18,7 @@ body{margin:0;background:transparent;color:#f2f2f2}
 .note{line-height:1.65}
 .note-line{display:block;margin:0 0 8px 0;white-space:normal;overflow-wrap:anywhere}
 .note-line:last-child{margin-bottom:0}
-.note-line.warning-line{padding-left:1.4em;text-indent:-1.4em}
+.note-line.warning-line{font-weight:650;margin-top:10px}.late-row{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:4px 0;border-bottom:1px solid #333}.late-name{min-width:0;overflow-wrap:anywhere}.late-days{white-space:nowrap;color:#e9b36b;font-variant-numeric:tabular-nums}
 small{display:block;margin-top:12px;color:#aaa;line-height:1.5;overflow-wrap:anywhere}
 @media(prefers-color-scheme:light){body{color:#222}.panel{background:white;border-color:#ddd}.muted,small{color:#666}.refresh{background:#f7f7f7;border-color:#ccc}.refresh:hover{background:#eee}}
 #note{white-space:pre-line;overflow-wrap:anywhere;}
@@ -53,7 +53,19 @@ small{display:block;margin-top:12px;color:#aaa;line-height:1.5;overflow-wrap:any
   function showMessage(message){
     const lines=String(message||'沒有詳細說明').split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
     note.replaceChildren();
+    let overdue=false;
     for(const line of lines){
+      if(line.startsWith('⚠️ 預計逾期：'))overdue=true;
+      else if(!/\s+\d+\s*天$/.test(line))overdue=false;
+      if(overdue && !line.startsWith('⚠️')){
+        const m=line.match(/^(.*)\s+(\d+)\s*天$/);
+        if(m){
+          const row=document.createElement('div');row.className='late-row';
+          const name=document.createElement('span');name.className='late-name';name.textContent=m[1];
+          const days=document.createElement('span');days.className='late-days';days.textContent=m[2]+' 天';
+          row.append(name,days);note.appendChild(row);continue;
+        }
+      }
       const el=document.createElement('div');
       el.className='note-line'+(line.startsWith('⚠️')?' warning-line':'');
       el.textContent=line;

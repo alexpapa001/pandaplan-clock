@@ -34,7 +34,7 @@ small{display:block;margin-top:12px;color:#aaa;line-height:1.5;overflow-wrap:any
 <body>
 <main class="panel">
   <div class="header">
-    <div class="muted">🐼 PandaPlan 更新狀態</div>
+    <div class="muted">🐼 PandaPlan 更新狀態 <span style="opacity:.55;font-size:10px">v2.1-quip</span></div>
     <button class="refresh" type="button" id="refresh" aria-label="重新整理 PandaPlan 狀態">↻ 重新整理</button>
   </div>
   <div class="status" id="state" role="status" aria-live="polite">正在讀取…</div>
@@ -144,6 +144,17 @@ small{display:block;margin-top:12px;color:#aaa;line-height:1.5;overflow-wrap:any
     const hasWarnings=lines.some(line=>line.startsWith('⚠️'));
     if(isSuccess && !hasWarnings){
       add('note-quip',pandaDailyQuotes[pandaDailyChoice]);
+    }
+    // Fallback: status can be 'warning' even if message layout differs.
+    // Never hide genuine warnings; put the quip above the first warning row.
+    if(!quipShown && state.textContent.includes('有提示') && lines.some(x=>x.includes('預計逾期'))){
+      const countMatch=lines.join(' ').match(/預計逾期[^0-9]*(\d+)/);
+      const count=countMatch?Number(countMatch[1]):0;
+      const choices=pandaQuotes.filter(q=>!q.includes('X'));
+      const line=choices[pandaChoice%choices.length].replaceAll('N',String(count));
+      const el=document.createElement('div');el.className='note-quip';el.textContent=line;
+      const heading=Array.from(note.children).find(x=>x.textContent.includes('預計逾期'));
+      if(heading)heading.after(el);else note.prepend(el);
     }
     if(!note.children.length)add('note-info','沒有排程警告');
   }

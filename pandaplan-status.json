@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "state": "running",
-  "updated_at": "2026-11-06T21:03:31+08:00",
-  "warning_count": 0,
-  "message": "GitHub Actions 已開始執行，請稍候。",
+  "state": "warning",
+  "updated_at": "2026-11-06T21:04:29+08:00",
+  "warning_count": 5,
+  "message": "排程已執行，但有排程警告：\n⚠️ 預計逾期：3 項\nRe0Maid系列 ｜菜月昴　6 天\nRe0Maid系列 ｜由里烏斯　3 天\nRe0Maid系列 ｜奧托　1 天\n工作日曆已自動補建：75 天（2026-12-01 至 2027-02-13）",
   "run_id": "42222406439"
 }

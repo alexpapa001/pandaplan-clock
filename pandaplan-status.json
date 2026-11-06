@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "state": "warning",
-  "updated_at": "2026-11-06T15:01:53+08:00",
-  "warning_count": 1,
-  "message": "排程已執行，但有排程警告：\n⚠️ 幻創町KV｜Q版: 截稿前尚有 0.5 小時無法安排",
-  "run_id": "42178161789"
+  "state": "running",
+  "updated_at": "2026-11-06T15:59:08+08:00",
+  "warning_count": 0,
+  "message": "GitHub Actions 已開始執行，請稍候。",
+  "run_id": "42184445487"
 }

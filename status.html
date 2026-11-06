@@ -95,10 +95,27 @@ small{display:block;margin-top:12px;color:#aaa;line-height:1.5;overflow-wrap:any
     "🐼 沒有警告的日子，適合摸一下魚。",
     "🐼 記得眨眼，螢幕不會跑掉的。"
 ];
-  const pandaDailyChoice=Math.floor(Math.random()*pandaDailyQuotes.length);
-  const pandaChoice=Math.floor(Math.random()*pandaQuotes.length);
+  // A full page load or manual refresh picks a new quote. Background polling keeps it.
+  // Give numeric sleep jokes a modest boost: 45% when the hour estimate exists.
+  const sleepQuotes=pandaQuotes.filter(q=>q.includes('X'));
+  const otherQuotes=pandaQuotes.filter(q=>!q.includes('X'));
+  let selectedLate=null;
+  let selectedDaily=null;
+  function randomOtherThan(items, previous){
+    const pool=items.length>1?items.filter(q=>q!==previous):items;
+    return pool[Math.floor(Math.random()*pool.length)];
+  }
+  function chooseQuotes(sleepDays){
+    const previousLate=selectedLate;
+    const available=sleepDays?pandaQuotes:otherQuotes;
+    const preferSleep=Boolean(sleepDays)&&Math.random()<0.45;
+    const preferred=preferSleep?sleepQuotes:otherQuotes;
+    const pool=preferred.filter(q=>q!==previousLate);
+    selectedLate=randomOtherThan(pool.length?pool:available,previousLate);
+    selectedDaily=randomOtherThan(pandaDailyQuotes,selectedDaily);
+  }
   let busy=false;
-  function showMessage(message){
+  function showMessage(message, reroll=false){
     const lines=String(message||'').split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
     note.replaceChildren();
     let inLate=false;
@@ -106,8 +123,10 @@ small{display:block;margin-top:12px;color:#aaa;line-height:1.5;overflow-wrap:any
     let quipShown=false;
     const sleepMatch=lines.join('\n').match(/🐼\s*睡眠換算[：:]\s*(\d+(?:\.\d+)?)\s*天/);
     const sleepDays=sleepMatch?sleepMatch[1]:null;
-    const safeQuotes=sleepDays?pandaQuotes:pandaQuotes.filter(q=>!q.includes('X'));
-    const pickedQuote=safeQuotes[pandaChoice%safeQuotes.length];
+    if(reroll||selectedLate===null)chooseQuotes(sleepDays);
+    // If a fresh status has no numeric estimate, avoid unresolved X placeholders.
+    if(!sleepDays&&selectedLate.includes('X'))selectedLate=randomOtherThan(otherQuotes,selectedLate);
+    const pickedQuote=selectedLate;
     function add(cls,value){const el=document.createElement('div');el.className=cls;el.textContent=value;note.appendChild(el);return el;}
     for(const line of lines){
       if(/^⚠️\s*預計逾期[：:]\s*\d+\s*項/.test(line)){
@@ -143,11 +162,11 @@ small{display:block;margin-top:12px;color:#aaa;line-height:1.5;overflow-wrap:any
     const isSuccess=state.textContent.includes('完成') && !state.textContent.includes('預覽');
     const hasWarnings=lines.some(line=>line.startsWith('⚠️'));
     if(isSuccess && !hasWarnings){
-      add('note-quip',pandaDailyQuotes[pandaDailyChoice]);
+      add('note-quip',selectedDaily);
     }
     if(!note.children.length)add('note-info','沒有排程警告');
   }
-  async function refresh(){
+  async function refresh(reroll=false){
     if(busy)return;
     busy=true;
     button.disabled=true;
@@ -158,7 +177,7 @@ small{display:block;margin-top:12px;color:#aaa;line-height:1.5;overflow-wrap:any
       const d=await r.json();
       if(d.schema_version!==1||!Object.prototype.hasOwnProperty.call(states,d.state))throw new Error('Invalid status');
       state.textContent=states[d.state];
-      showMessage(d.message);
+      showMessage(d.message,reroll);
       meta.textContent='最後更新：'+localTime(d.updated_at);
     }catch(e){
       state.textContent='尚未取得更新狀態';
@@ -170,9 +189,9 @@ small{display:block;margin-top:12px;color:#aaa;line-height:1.5;overflow-wrap:any
       button.textContent='↻ 重新整理';
     }
   }
-  button.addEventListener('click',refresh);
-  refresh();
-  setInterval(refresh,10000);
+  button.addEventListener('click',()=>refresh(true));
+  refresh(true);
+  setInterval(()=>refresh(false),10000);
 })();
 </script>
 </body>

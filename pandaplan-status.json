@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "state": "running",
-  "updated_at": "2026-11-06T19:02:27+08:00",
-  "warning_count": 0,
-  "message": "GitHub Actions 已開始執行，請稍候。",
+  "state": "blocked",
+  "updated_at": "2026-11-06T19:02:33+08:00",
+  "warning_count": 12,
+  "message": "安全限制阻止排程寫入。\n⚠️ 預計逾期：4 項\nRe0Maid系列 ｜菜月昴　8 天\nRe0Maid系列 ｜由里烏斯　5 天\nRe0小卡新版修圖　2 天\nRe0Maid系列 ｜奧托　1 天\n⚠️ 另有排程提示，請查看私人執行紀錄",
   "run_id": "42207194416"
 }

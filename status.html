@@ -24,6 +24,7 @@ body{margin:0;background:transparent;color:#f2f2f2}
 .note-intro{margin:4px 0 10px;color:#bbb}
 .note-line{display:block;margin:0 0 8px 0;white-space:normal;overflow-wrap:anywhere}
 .note-line:last-child{margin-bottom:0}
+.note-quip{margin:7px 0 9px;line-height:1.5;font-size:.93em;opacity:.9}
 .note-line.warning-line{padding-left:1.4em;text-indent:-1.4em}
 small{display:block;margin-top:12px;color:#aaa;line-height:1.5;overflow-wrap:anywhere}
 @media(prefers-color-scheme:light){body{color:#222}.panel{background:white;border-color:#ddd}.muted,small{color:#666}.refresh{background:#f7f7f7;border-color:#ccc}.refresh:hover{background:#eee}}
@@ -55,15 +56,63 @@ small{display:block;margin-top:12px;color:#aaa;line-height:1.5;overflow-wrap:any
   }
 
   const button=document.getElementById('refresh');
+  const pandaQuotes=[
+    '🐼 別睡了！少睡 X 天就趕得上了!!',
+    '🐼 好消息！只需要犧牲 X 天睡眠！',
+    '🐼 你的截稿日和睡眠，只能留一個。',
+    '🐼 只要少睡 X 天，一切都還有希望！',
+    '🐼 截稿日正在追殺你，睡眠先放一邊！',
+    '🐼 目前距離奇蹟，只差 X 天的睡眠。',
+    '🐼 睡覺可以補，截稿日不會等！',
+    '🐼 少睡 X 天就能準時？數學說可以。',
+    '🐼 你與準時交稿之間，隔着 X 天的美夢。',
+    '🐼 目前有 N 項任務在後面追你，跑快點！',
+    '🐼 N 項任務已經組成追擊小隊。',
+    '🐼 你以為今天很忙？N 項任務說還沒開始呢。',
+    '🐼 截稿日沒有腳，卻比你跑得快。',
+    '🐼 待辦清單正在繁殖，請勿餵食。',
+    '🐼 你的行事曆正在向你發出求救訊號。',
+    '🐼 N 項任務排隊敲門，請問要先救哪一個？',
+    '🐼 截稿日不是都市傳說，它真的會來。',
+    '🐼 目前進度：熊貓冷靜，行事曆不冷靜。',
+    '🐼 你和自由之間，還隔着 N 項任務。',
+  ];
+  const pandaDailyQuotes=[
+    "🐼 記得喝水，熊貓不想你變成風乾竹筍。",
+    "🐼 今天也辛苦了，先喝一口水吧！",
+    "🐼 工作可以慢慢做，水要記得喝。",
+    "🐼 坐太久了！起來伸個懶腰吧。",
+    "🐼 眼睛也要休息，看看遠方的竹林。",
+    "🐼 今天的你也有好好努力，熊貓批准休息五分鐘。",
+    "🐼 沒有警告？很好，來獎勵自己一杯水。",
+    "🐼 記得吃飯，靈感不能當主食。",
+    "🐼 先整理一下桌面，說不定會找到失蹤的靈感。",
+    "🐼 今天也要善待手腕，畫圖記得活動一下。",
+    "🐼 你的待辦清單今天很乖，拍拍牠。",
+    "🐼 不用每分鐘都有效率，熊貓也會發呆。",
+    "🐼 好消息！目前沒有任務在追殺你。",
+    "🐼 趁世界和平，去泡杯喜歡的飲品吧。",
+    "🐼 沒有警告的日子，適合摸一下魚。",
+    "🐼 記得眨眼，螢幕不會跑掉的。"
+];
+  const pandaDailyChoice=Math.floor(Math.random()*pandaDailyQuotes.length);
+  const pandaChoice=Math.floor(Math.random()*pandaQuotes.length);
   let busy=false;
   function showMessage(message){
     const lines=String(message||'').split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
     note.replaceChildren();
     let inLate=false;
+    let lateCount=0;
     function add(cls,value){const el=document.createElement('div');el.className=cls;el.textContent=value;note.appendChild(el);return el;}
     for(const line of lines){
       if(/^⚠️\s*預計逾期[：:]\s*\d+\s*項/.test(line)){
-        add('note-section',line);inLate=true;continue;
+        add('note-section',line);inLate=true;
+        lateCount=Number((line.match(/(\d+)\s*項/)||[])[1]||0);continue;
+      }
+      if(inLate && line.startsWith('🐼 ')){
+        const days=(line.match(/(\d+(?:\.\d+)?)\s*天/)||[])[1]||'？';
+        add('note-quip',pandaQuotes[pandaChoice].replaceAll('X',days).replaceAll('N',String(lateCount)));
+        continue;
       }
       const late=inLate && line.match(/^(.*?)\s+(\d+)\s*天$/);
       if(late){
@@ -81,6 +130,13 @@ small{display:block;margin-top:12px;color:#aaa;line-height:1.5;overflow-wrap:any
       }else{
         add('note-line'+(line.startsWith('⚠️')?' warning-line':''),line);
       }
+    }
+    // Only show everyday encouragement when the update succeeded with no warnings.
+    // Preview, errors and real warning messages must not be disguised as all-clear.
+    const isSuccess=state.textContent.includes('完成') && !state.textContent.includes('預覽');
+    const hasWarnings=lines.some(line=>line.startsWith('⚠️'));
+    if(isSuccess && !hasWarnings){
+      add('note-quip',pandaDailyQuotes[pandaDailyChoice]);
     }
     if(!note.children.length)add('note-info','沒有排程警告');
   }

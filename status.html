@@ -15,7 +15,10 @@ body{margin:0;background:transparent;color:#f2f2f2}
 .refresh:focus-visible{outline:2px solid #87b7ff;outline-offset:2px}
 .refresh:disabled{opacity:.6;cursor:wait}
 .status{font-size:22px;font-weight:700;margin:10px 0}
-.note{line-height:1.6}
+.note{line-height:1.65}
+.note-line{display:block;margin:0 0 8px 0;white-space:normal;overflow-wrap:anywhere}
+.note-line:last-child{margin-bottom:0}
+.note-line.warning-line{padding-left:1.4em;text-indent:-1.4em}
 small{display:block;margin-top:12px;color:#aaa;line-height:1.5;overflow-wrap:anywhere}
 @media(prefers-color-scheme:light){body{color:#222}.panel{background:white;border-color:#ddd}.muted,small{color:#666}.refresh{background:#f7f7f7;border-color:#ccc}.refresh:hover{background:#eee}}
 #note{white-space:pre-line;overflow-wrap:anywhere;}
@@ -47,6 +50,16 @@ small{display:block;margin-top:12px;color:#aaa;line-height:1.5;overflow-wrap:any
 
   const button=document.getElementById('refresh');
   let busy=false;
+  function showMessage(message){
+    const lines=String(message||'沒有詳細說明').split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
+    note.replaceChildren();
+    for(const line of lines){
+      const el=document.createElement('div');
+      el.className='note-line'+(line.startsWith('⚠️')?' warning-line':'');
+      el.textContent=line;
+      note.appendChild(el);
+    }
+  }
   async function refresh(){
     if(busy)return;
     busy=true;
@@ -58,7 +71,7 @@ small{display:block;margin-top:12px;color:#aaa;line-height:1.5;overflow-wrap:any
       const d=await r.json();
       if(d.schema_version!==1||!Object.prototype.hasOwnProperty.call(states,d.state))throw new Error('Invalid status');
       state.textContent=states[d.state];
-      note.textContent=d.message||'沒有詳細說明';
+      showMessage(d.message);
       meta.textContent='最後狀態：'+localTime(d.updated_at)+' · 警告數：'+(d.warning_count??0);
     }catch(e){
       state.textContent='尚未取得更新狀態';

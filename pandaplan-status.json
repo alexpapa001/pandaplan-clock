@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "state": "running",
-  "updated_at": "2026-11-07T19:19:54+08:00",
+  "state": "failed",
+  "updated_at": "2026-11-07T19:19:58+08:00",
   "warning_count": 0,
-  "message": "GitHub Actions 已開始執行，請稍候。",
+  "message": "排程執行失敗或未開始；請檢查私人 GitHub Actions 紀錄。",
   "run_id": "42367706694"
 }

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-07T22:17:03+08:00",
+  "updated_at": "2026-11-07T23:30:36+08:00",
   "timezone": "Asia/Hong_Kong",
   "months": {
     "2026-11": {
@@ -58,10 +58,10 @@
     },
     "2026-12": {
       "available": 103.0,
-      "scheduled": 103.0,
+      "scheduled": 102.0,
       "actual": 0.0,
       "overtimeDays": 0,
-      "inProgress": 23,
+      "inProgress": 22,
       "completed": 0,
       "overBudgetUnfinished": 0,
       "categories": {
@@ -90,8 +90,8 @@
           "hours": 0.0
         },
         "展會／活動": {
-          "total": 9,
-          "active": 9,
+          "total": 8,
+          "active": 8,
           "done": 0,
           "hours": 0.0
         },

@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "state": "running",
-  "updated_at": "2026-11-07T18:43:39+08:00",
-  "warning_count": 0,
-  "message": "GitHub Actions 已開始執行，請稍候。",
+  "state": "warning",
+  "updated_at": "2026-11-07T18:43:46+08:00",
+  "warning_count": 3,
+  "message": "排程更新完成。\n⚠️ 預計逾期：3 項\nRe0Maid系列 ｜角色互動A　6 天\nRe0Maid系列 ｜角色互動B　3 天\nRe0Maid系列 ｜角色互動C　1 天\n🐼 睡眠換算：2.1 天",
   "run_id": "42365159195"
 }

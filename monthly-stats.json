@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-07T19:23:54+08:00",
+  "updated_at": "2026-11-07T19:29:38+08:00",
   "timezone": "Asia/Hong_Kong",
   "months": {
     "2026-11": {
@@ -8,13 +8,13 @@
       "scheduled": 85.0,
       "actual": 4.5,
       "overtimeDays": 0,
-      "inProgress": 11,
+      "inProgress": 12,
       "completed": 2,
       "overBudgetUnfinished": 0,
       "categories": {
         "插畫／設計": {
-          "total": 10,
-          "active": 10,
+          "total": 9,
+          "active": 9,
           "done": 0,
           "hours": 0.0
         },
@@ -25,8 +25,8 @@
           "hours": 4.5
         },
         "商品企劃": {
-          "total": 0,
-          "active": 0,
+          "total": 2,
+          "active": 2,
           "done": 0,
           "hours": 0.0
         },
@@ -58,10 +58,63 @@
     },
     "2026-12": {
       "available": 103.0,
-      "scheduled": 51.0,
+      "scheduled": 103.0,
       "actual": 0.0,
       "overtimeDays": 0,
-      "inProgress": 5,
+      "inProgress": 23,
+      "completed": 0,
+      "overBudgetUnfinished": 0,
+      "categories": {
+        "插畫／設計": {
+          "total": 0,
+          "active": 0,
+          "done": 0,
+          "hours": 0.0
+        },
+        "委託創作": {
+          "total": 0,
+          "active": 0,
+          "done": 0,
+          "hours": 0.0
+        },
+        "商品企劃": {
+          "total": 2,
+          "active": 2,
+          "done": 0,
+          "hours": 0.0
+        },
+        "生產／製作": {
+          "total": 7,
+          "active": 7,
+          "done": 0,
+          "hours": 0.0
+        },
+        "展會／活動": {
+          "total": 9,
+          "active": 9,
+          "done": 0,
+          "hours": 0.0
+        },
+        "店舖／營運": {
+          "total": 5,
+          "active": 5,
+          "done": 0,
+          "hours": 0.0
+        },
+        "其他": {
+          "total": 0,
+          "active": 0,
+          "done": 0,
+          "hours": 0.0
+        }
+      }
+    },
+    "2027-01": {
+      "available": 106.0,
+      "scheduled": 82.0,
+      "actual": 0.0,
+      "overtimeDays": 0,
+      "inProgress": 13,
       "completed": 0,
       "overBudgetUnfinished": 0,
       "categories": {
@@ -84,73 +137,20 @@
           "hours": 0.0
         },
         "生產／製作": {
-          "total": 0,
-          "active": 0,
+          "total": 1,
+          "active": 1,
           "done": 0,
           "hours": 0.0
         },
         "展會／活動": {
-          "total": 0,
-          "active": 0,
+          "total": 6,
+          "active": 6,
           "done": 0,
           "hours": 0.0
         },
         "店舖／營運": {
-          "total": 0,
-          "active": 0,
-          "done": 0,
-          "hours": 0.0
-        },
-        "其他": {
-          "total": 0,
-          "active": 0,
-          "done": 0,
-          "hours": 0.0
-        }
-      }
-    },
-    "2027-01": {
-      "available": 106.0,
-      "scheduled": 0.0,
-      "actual": 0.0,
-      "overtimeDays": 0,
-      "inProgress": 0,
-      "completed": 0,
-      "overBudgetUnfinished": 0,
-      "categories": {
-        "插畫／設計": {
-          "total": 0,
-          "active": 0,
-          "done": 0,
-          "hours": 0.0
-        },
-        "委託創作": {
-          "total": 0,
-          "active": 0,
-          "done": 0,
-          "hours": 0.0
-        },
-        "商品企劃": {
-          "total": 0,
-          "active": 0,
-          "done": 0,
-          "hours": 0.0
-        },
-        "生產／製作": {
-          "total": 0,
-          "active": 0,
-          "done": 0,
-          "hours": 0.0
-        },
-        "展會／活動": {
-          "total": 0,
-          "active": 0,
-          "done": 0,
-          "hours": 0.0
-        },
-        "店舖／營運": {
-          "total": 0,
-          "active": 0,
+          "total": 1,
+          "active": 1,
           "done": 0,
           "hours": 0.0
         },

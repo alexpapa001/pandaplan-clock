@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-08T23:34:14+08:00",
+  "updated_at": "2026-11-09T09:20:33+08:00",
   "timezone": "Asia/Hong_Kong",
   "months": {
     "2026-11": {
@@ -8,7 +8,7 @@
       "scheduled": 84.99,
       "actual": 8.37,
       "overtimeDays": 0,
-      "inProgress": 11,
+      "inProgress": 10,
       "completed": 2,
       "overBudgetUnfinished": 0,
       "categories": {
@@ -25,8 +25,8 @@
           "hours": 4.5
         },
         "商品企劃": {
-          "total": 2,
-          "active": 2,
+          "total": 1,
+          "active": 1,
           "done": 0,
           "hours": 0.0
         },
@@ -66,8 +66,8 @@
       "overBudgetUnfinished": 0,
       "categories": {
         "插畫／設計": {
-          "total": 5,
-          "active": 5,
+          "total": 4,
+          "active": 4,
           "done": 0,
           "hours": 0.0
         },
@@ -78,8 +78,8 @@
           "hours": 0.0
         },
         "商品企劃": {
-          "total": 2,
-          "active": 2,
+          "total": 3,
+          "active": 3,
           "done": 0,
           "hours": 0.0
         },
@@ -111,10 +111,10 @@
     },
     "2027-01": {
       "available": 106.0,
-      "scheduled": 65.11,
+      "scheduled": 68.13,
       "actual": 0.0,
       "overtimeDays": 0,
-      "inProgress": 13,
+      "inProgress": 14,
       "completed": 0,
       "overBudgetUnfinished": 0,
       "categories": {
@@ -143,8 +143,8 @@
           "hours": 0.0
         },
         "展會／活動": {
-          "total": 5,
-          "active": 5,
+          "total": 6,
+          "active": 6,
           "done": 0,
           "hours": 0.0
         },
@@ -163,7 +163,7 @@
       }
     },
     "2027-02": {
-      "available": 56.5,
+      "available": 59.0,
       "scheduled": 0.0,
       "actual": 0.0,
       "overtimeDays": 0,

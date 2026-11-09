@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-09T09:20:33+08:00",
+  "updated_at": "2026-11-10T00:04:01+08:00",
   "timezone": "Asia/Hong_Kong",
   "months": {
     "2026-11": {
       "available": 98.5,
-      "scheduled": 84.99,
-      "actual": 8.37,
+      "scheduled": 84.98,
+      "actual": 10.37,
       "overtimeDays": 0,
       "inProgress": 10,
       "completed": 2,
@@ -16,7 +16,7 @@
           "total": 9,
           "active": 9,
           "done": 0,
-          "hours": 3.87
+          "hours": 5.87
         },
         "委託創作": {
           "total": 2,

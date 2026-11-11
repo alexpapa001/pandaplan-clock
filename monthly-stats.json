@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-11T00:57:30+08:00",
+  "updated_at": "2026-11-11T09:36:48+08:00",
   "timezone": "Asia/Hong_Kong",
   "months": {
     "2026-11": {
       "available": 98.5,
-      "scheduled": 85.48,
+      "scheduled": 85.49,
       "actual": 13.87,
       "overtimeDays": 1,
       "inProgress": 10,
@@ -163,7 +163,7 @@
       }
     },
     "2027-02": {
-      "available": 61.5,
+      "available": 64.0,
       "scheduled": 0.0,
       "actual": 0.0,
       "overtimeDays": 0,

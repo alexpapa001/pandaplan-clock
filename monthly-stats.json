@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-15T09:28:46+08:00",
+  "updated_at": "2026-11-16T09:31:00+08:00",
   "timezone": "Asia/Hong_Kong",
   "months": {
     "2026-11": {
@@ -111,10 +111,10 @@
     },
     "2027-01": {
       "available": 106.0,
-      "scheduled": 66.63,
+      "scheduled": 72.63,
       "actual": 0.0,
       "overtimeDays": 0,
-      "inProgress": 13,
+      "inProgress": 14,
       "completed": 0,
       "overBudgetUnfinished": 0,
       "categories": {
@@ -131,8 +131,8 @@
           "hours": 0.0
         },
         "商品企劃": {
-          "total": 0,
-          "active": 0,
+          "total": 1,
+          "active": 1,
           "done": 0,
           "hours": 0.0
         },
@@ -163,7 +163,7 @@
       }
     },
     "2027-02": {
-      "available": 79.0,
+      "available": 81.5,
       "scheduled": 0.0,
       "actual": 0.0,
       "overtimeDays": 0,

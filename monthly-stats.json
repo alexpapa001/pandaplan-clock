@@ -1,22 +1,22 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-16T09:31:00+08:00",
+  "updated_at": "2026-11-16T16:00:26+08:00",
   "timezone": "Asia/Hong_Kong",
   "months": {
     "2026-11": {
       "available": 98.5,
       "scheduled": 85.49,
-      "actual": 16.37,
-      "overtimeDays": 1,
+      "actual": 24.87,
+      "overtimeDays": 2,
       "inProgress": 9,
       "completed": 2,
-      "overBudgetUnfinished": 0,
+      "overBudgetUnfinished": 1,
       "categories": {
         "插畫／設計": {
           "total": 9,
           "active": 9,
           "done": 0,
-          "hours": 11.87
+          "hours": 20.37
         },
         "委託創作": {
           "total": 2,
@@ -111,10 +111,10 @@
     },
     "2027-01": {
       "available": 106.0,
-      "scheduled": 72.63,
+      "scheduled": 64.81,
       "actual": 0.0,
       "overtimeDays": 0,
-      "inProgress": 14,
+      "inProgress": 13,
       "completed": 0,
       "overBudgetUnfinished": 0,
       "categories": {
@@ -131,8 +131,8 @@
           "hours": 0.0
         },
         "商品企劃": {
-          "total": 1,
-          "active": 1,
+          "total": 0,
+          "active": 0,
           "done": 0,
           "hours": 0.0
         },

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-21T06:28:40+08:00",
+  "updated_at": "2026-11-22T05:24:45+08:00",
   "timezone": "Asia/Hong_Kong",
   "months": {
     "2026-11": {
@@ -66,8 +66,8 @@
       "overBudgetUnfinished": 0,
       "categories": {
         "插畫／設計": {
-          "total": 7,
-          "active": 7,
+          "total": 8,
+          "active": 8,
           "done": 0,
           "hours": 0.0
         },
@@ -84,8 +84,8 @@
           "hours": 0.0
         },
         "生產／製作": {
-          "total": 4,
-          "active": 4,
+          "total": 3,
+          "active": 3,
           "done": 0,
           "hours": 0.0
         },
@@ -111,16 +111,16 @@
     },
     "2027-01": {
       "available": 106.0,
-      "scheduled": 66.81,
+      "scheduled": 70.81,
       "actual": 0.0,
       "overtimeDays": 0,
-      "inProgress": 16,
+      "inProgress": 17,
       "completed": 0,
       "overBudgetUnfinished": 0,
       "categories": {
         "插畫／設計": {
-          "total": 0,
-          "active": 0,
+          "total": 1,
+          "active": 1,
           "done": 0,
           "hours": 0.0
         },
@@ -164,6 +164,59 @@
     },
     "2027-02": {
       "available": 99.0,
+      "scheduled": 0.0,
+      "actual": 0.0,
+      "overtimeDays": 0,
+      "inProgress": 0,
+      "completed": 0,
+      "overBudgetUnfinished": 0,
+      "categories": {
+        "插畫／設計": {
+          "total": 0,
+          "active": 0,
+          "done": 0,
+          "hours": 0.0
+        },
+        "委託創作": {
+          "total": 0,
+          "active": 0,
+          "done": 0,
+          "hours": 0.0
+        },
+        "商品企劃": {
+          "total": 0,
+          "active": 0,
+          "done": 0,
+          "hours": 0.0
+        },
+        "生產／製作": {
+          "total": 0,
+          "active": 0,
+          "done": 0,
+          "hours": 0.0
+        },
+        "展會／活動": {
+          "total": 0,
+          "active": 0,
+          "done": 0,
+          "hours": 0.0
+        },
+        "店舖／營運": {
+          "total": 0,
+          "active": 0,
+          "done": 0,
+          "hours": 0.0
+        },
+        "其他": {
+          "total": 0,
+          "active": 0,
+          "done": 0,
+          "hours": 0.0
+        }
+      }
+    },
+    "2027-03": {
+      "available": 2.5,
       "scheduled": 0.0,
       "actual": 0.0,
       "overtimeDays": 0,

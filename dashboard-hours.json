@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "date": "2026-11-21",
+  "date": "2026-11-22",
   "timezone": "Asia/Hong_Kong",
-  "updated_at": "2026-11-21T06:28:34+08:00",
-  "available_hours": 4.0,
-  "scheduled_hours": 4.0,
+  "updated_at": "2026-11-22T05:24:39+08:00",
+  "available_hours": 6.0,
+  "scheduled_hours": 6.0,
   "remaining_hours": 0
 }
